@@ -58,19 +58,19 @@ class Player {
         switch(keyPressed) {
             case 'left':
             console.log(keyPressed);
-            this.changeInX = -50;
+            this.changeInX = -100;
             break;
             case 'right':
             console.log(keyPressed);
-            this.changeInX = 50;
+            this.changeInX = 100;
             break;
             case 'up':
             console.log(keyPressed);
-            this.changeInY = -50;
+            this.changeInY = -80;
             break;
             case 'down':
             console.log(keyPressed);
-            this.changeInY = 50;
+            this.changeInY = 80;
             break;
         }
     }
@@ -96,6 +96,5 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
     player.handleInput(allowedKeys[e.keyCode]);
 });

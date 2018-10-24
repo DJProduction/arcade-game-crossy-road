@@ -6,7 +6,7 @@ class Enemy {
         this.sprite = 'images/enemy-bug.png';
         this.x = 0;
         this.y = 0;
-        this.speed = Math.floor(Math.random() * 11);
+        this.speed = Math.floor(Math.random() * 200) + 80;
     }
 
     // Update the enemy's position, required method for game
@@ -15,7 +15,7 @@ class Enemy {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-        this.x = this.speed * dt;
+        this.x += this.speed * dt;
     }
 
     // Draw the enemy on the screen, required method for game

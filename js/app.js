@@ -28,8 +28,12 @@ class Enemy {
 class Player {
     constructor() {
         this.sprite = 'images/char-boy.png';
-        this.x = 203;
-        this.y = 290;
+        this.x = 202;
+        this.y = 303;
+        // Result of dividing the columns by the canvas size
+        this.moveX = 101;
+        // Result of dividing the rows by the canvas size
+        this.moveY = 85;
         this.changeInX = 0;
         this.changeInY = 0;
     }
@@ -58,19 +62,19 @@ class Player {
         switch(keyPressed) {
             case 'left':
             console.log(keyPressed);
-            this.changeInX = -100;
+            this.changeInX = -this.moveX;
             break;
             case 'right':
             console.log(keyPressed);
-            this.changeInX = 100;
+            this.changeInX = this.moveX;
             break;
             case 'up':
             console.log(keyPressed);
-            this.changeInY = -80;
+            this.changeInY = -this.moveY;
             break;
             case 'down':
             console.log(keyPressed);
-            this.changeInY = 80;
+            this.changeInY = this.moveY;
             break;
         }
     }

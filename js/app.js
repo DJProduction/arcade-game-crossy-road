@@ -1,6 +1,21 @@
-// Enemies our player must avoid
-class Enemy {
+// Holds properties that are similar for the enemy and player objects
+class GameObject {
     constructor() {
+        // Result of dividing the columns by the canvas size
+        this.moveX = 101;
+        // Result of dividing the rows by the canvas size
+        this.moveY = 83;
+        // Boundary of the x-axis canvas
+        this.canvasBoundaryX = this.moveX * 4;
+        // Boundary of the y-axis canvas
+        this.canvasBoundaryY = this.moveY * 5;
+    }
+}
+
+// Enemies our player must avoid
+class Enemy extends GameObject {
+    constructor() {
+        super();
         // The image/sprite for our enemies, this uses
         // a helper we've provided to easily load images
         this.sprite = 'images/enemy-bug.png';
@@ -12,10 +27,14 @@ class Enemy {
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
     update(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-        this.x += this.speed * dt;
+        // Checks the x-axis of the enemy in relation to
+        // measurement set for the canvas of the game located in GameObject.
+        // The noveX ensures the enemy moves off-screen before being reset.
+        if(this.x <= this.canvasBoundaryX + this.moveX) {
+            // Multiplies the random speed by the delta time to keep smooth
+            // motion across the canvas for each enemy
+            this.x += this.speed * dt;
+        }
     }
 
     // Draw the enemy on the screen, required method for game
@@ -25,15 +44,12 @@ class Enemy {
 };
 
 // Enemies our player must avoid
-class Player {
+class Player extends GameObject {
     constructor() {
+        super();
         this.sprite = 'images/char-boy.png';
         this.x = 202;
         this.y = 303;
-        // Result of dividing the columns by the canvas size
-        this.moveX = 101;
-        // Result of dividing the rows by the canvas size
-        this.moveY = 85;
         this.changeInX = 0;
         this.changeInY = 0;
     }

@@ -57,13 +57,15 @@ class Player extends GameObject {
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
     update() {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-        if (this.changeInX !== 0 || this.changeInY !== 0) {
+        // You should multiply any movement by the dt parameter
+        // which will ensure the game runs at the same speed for
+        // all computers.
+        if (this.changeInX !== 0) {
             this.x += this.changeInX;
-            this.y += this.changeInY;
             this.changeInX = 0;
+        }
+        if (this.changeInY !== 0) {
+            this.y += this.changeInY;
             this.changeInY = 0;
         }
     }
@@ -75,23 +77,31 @@ class Player extends GameObject {
 
     // Choose the correct direction for the player to move when a key is pressed
     handleInput(keyPressed) {
-        switch(keyPressed) {
+        switch (keyPressed) {
             case 'left':
-            console.log(keyPressed);
-            this.changeInX = -this.moveX;
-            break;
+                console.log(keyPressed);
+                if (this.x + -this.moveX >= 0) {
+                    this.changeInX = -this.moveX;
+                }
+                break;
             case 'right':
-            console.log(keyPressed);
-            this.changeInX = this.moveX;
-            break;
+                console.log(keyPressed);
+                if (this.x + this.moveX <= this.canvasBoundaryX) {
+                    this.changeInX = this.moveX;
+                }
+                break;
             case 'up':
-            console.log(keyPressed);
-            this.changeInY = -this.moveY;
-            break;
+                console.log(keyPressed);
+                if (this.y + -this.moveY >= 0) {
+                    this.changeInY = -this.moveY;
+                }
+                break;
             case 'down':
-            console.log(keyPressed);
-            this.changeInY = this.moveY;
-            break;
+                console.log(keyPressed);
+                if (this.y + this.moveY <= this.canvasBoundaryY) {
+                    this.changeInY = this.moveY;
+                }
+                break;
         }
     }
 };

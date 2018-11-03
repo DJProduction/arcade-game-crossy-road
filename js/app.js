@@ -22,6 +22,7 @@ class Enemy extends GameObject {
         this.x = 0;
         this.y = 0;
         this.speed = Math.floor(Math.random() * 200) + 80;
+        this.resetStart = -this.moveX;
     }
 
     // Update the enemy's position, required method for game
@@ -34,6 +35,13 @@ class Enemy extends GameObject {
             // Multiplies the random speed by the delta time to keep smooth
             // motion across the canvas for each enemy
             this.x += this.speed * dt;
+        }
+        else {
+            // When enemy is resets give them a new speed
+            this.speed = Math.floor(Math.random() * 200) + 80;
+            // When enemy reaches end of the lane reset set them to the
+            // beginning of the lane before the start of the canvas boarder.
+            this.x = this.resetStart;
         }
     }
 

@@ -19,8 +19,8 @@ class Enemy extends GameObject {
         // The image/sprite for our enemies, this uses
         // a helper we've provided to easily load images
         this.sprite = 'images/enemy-bug.png';
-        this.x = 0;
-        this.y = 0;
+        this.x = -this.moveX;
+        this.y = this.laneChooser();
         this.speed = Math.floor(Math.random() * 200) + 80;
         this.resetStart = -this.moveX;
     }
@@ -42,7 +42,25 @@ class Enemy extends GameObject {
             // When enemy reaches end of the lane reset set them to the
             // beginning of the lane before the start of the canvas boarder.
             this.x = this.resetStart;
+            // When enemy reaches end of the lane choose random lane for the enemy
+            // to travel across
+            this.laneChooser();
         }
+    }
+
+    // This function randomly chooses a lane for the enemy to travel across
+    // max/min lanes decide how many lanes enemy can choose from
+    laneChooser() {
+        let minLanes = 1, maxLanes = 3, firstLane = 60;
+        let lane = Math.floor(Math.random() * maxLanes) + minLanes;
+          if(lane === minLanes) {
+            this.y = firstLane;
+          }
+          else {
+              lane--;
+              let newLane = firstLane + (lane * this.moveY)
+              this.y = newLane
+          }
     }
 
     // Draw the enemy on the screen, required method for game

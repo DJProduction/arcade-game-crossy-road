@@ -9,6 +9,10 @@ class GameObject {
         this.canvasBoundaryX = this.moveX * 4;
         // Boundary of the y-axis canvas
         this.canvasBoundaryY = this.moveY * 5;
+        // Border surrounding each enemy, player and gem
+        // Used to check collisions by giving each object distance measurement.
+        this.width = 50;
+        this.height = 50;
     }
 }
 
@@ -75,7 +79,7 @@ class Player extends GameObject {
         super();
         this.sprite = 'images/char-boy.png';
         this.x = 202;
-        this.y = 303;
+        this.y = 395;
         this.changeInX = 0;
         this.changeInY = 0;
     }

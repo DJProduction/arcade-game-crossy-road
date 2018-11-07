@@ -79,7 +79,7 @@ let Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -94,6 +94,20 @@ let Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+    }
+
+    // Measures x and y coordinates as well as height and width boundary boxes
+    // to check if each objects is close enough to be considered a collision.
+    function checkCollisions() {
+        allEnemies.forEach(function(enemy) {
+            if (enemy.x < player.x + player.width &&
+                enemy.x + enemy.width > player.x &&
+                enemy.y < player.y + player.height &&
+                enemy.y + enemy.height > player.y) {
+                console.log('Collided with enemy')
+                reset();
+            }
+        });
     }
 
     /* This function initially draws the "game level", it will then call
@@ -161,7 +175,8 @@ let Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        player.x = 202;
+        player.y = 395;
     }
 
     /* Go ahead and load all of the images we know we're going to need to

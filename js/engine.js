@@ -155,13 +155,23 @@ let Engine = (function(global) {
 
         // Keep refreshed display of player's lives
         renderPlayerLives();
+        // Keep refreshed display of player's points
+        renderPlayerPoints();
     }
 
     function renderPlayerLives() {
         // This function displays the lives of the player.
         ctx.font = "25px Arial";
         ctx.fillStyle = "white";
-        ctx.fillText(`Lives: ${player.lives}`, 7, canvas.height - 30);
+        ctx.fillText(`Lives: ${player.lives}`, 107, canvas.height - 30);
+        renderEntities();
+    }
+
+    function renderPlayerPoints() {
+        // This function displays the points of the player.
+        ctx.font = "25px Arial";
+        ctx.fillStyle = "white";
+        ctx.fillText(`Points: ${player.points}`, canvas.width-200, canvas.height - 30);
         renderEntities();
     }
 

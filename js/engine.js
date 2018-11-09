@@ -105,6 +105,7 @@ let Engine = (function(global) {
                 enemy.y < player.y + player.height &&
                 enemy.y + enemy.height > player.y) {
                 console.log('Collided with enemy')
+                player.lives--;
                 reset();
             }
         });
@@ -152,6 +153,15 @@ let Engine = (function(global) {
             }
         }
 
+        // Keep refreshed display of player's lives
+        renderPlayerLives();
+    }
+
+    function renderPlayerLives() {
+        // This function displays the lives of the player.
+        ctx.font = "25px Arial";
+        ctx.fillStyle = "white";
+        ctx.fillText(`Lives: ${player.lives}`, 7, canvas.height - 30);
         renderEntities();
     }
 

@@ -82,6 +82,7 @@ class Player extends GameObject {
         this.y = 395;
         this.changeInX = 0;
         this.changeInY = 0;
+        this.lives = 3;
     }
 
     // Update the enemy's position, required method for game

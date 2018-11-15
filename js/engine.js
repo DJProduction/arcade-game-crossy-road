@@ -94,11 +94,13 @@ let Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+        reward.update();
     }
 
     // Measures x and y coordinates as well as height and width boundary boxes
     // to check if each objects is close enough to be considered a collision.
     function checkCollisions() {
+        // Checks collisions between enemies and the player
         allEnemies.forEach(function(enemy) {
             if (enemy.x < player.x + player.width &&
                 enemy.x + enemy.width > player.x &&
@@ -109,6 +111,14 @@ let Engine = (function(global) {
                 reset();
             }
         });
+        // Checks collisions between rewards and the player
+        if (reward.x < player.x + player.width &&
+            reward.x + reward.width > player.x &&
+            reward.y < player.y + player.height &&
+            reward.y + reward.height > player.y) {
+            player.points += 5;
+            reward.collided = true;
+        }
     }
 
     /* This function initially draws the "game level", it will then call
@@ -157,22 +167,22 @@ let Engine = (function(global) {
         renderPlayerLives();
         // Keep refreshed display of player's points
         renderPlayerPoints();
+
+        renderEntities();
     }
 
+    // This function displays the lives of the player
     function renderPlayerLives() {
-        // This function displays the lives of the player.
         ctx.font = "25px Arial";
         ctx.fillStyle = "white";
         ctx.fillText(`Lives: ${player.lives}`, 107, canvas.height - 30);
-        renderEntities();
     }
 
+    // This function displays the points of the player.
     function renderPlayerPoints() {
-        // This function displays the points of the player.
         ctx.font = "25px Arial";
         ctx.fillStyle = "white";
-        ctx.fillText(`Points: ${player.points}`, canvas.width-200, canvas.height - 30);
-        renderEntities();
+        ctx.fillText(`Points: ${player.points}`, canvas.width - 200, canvas.height - 30);
     }
 
     /* This function is called by the render function and is called on each game
@@ -186,8 +196,8 @@ let Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-
         player.render();
+        reward.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -197,6 +207,8 @@ let Engine = (function(global) {
     function reset() {
         player.x = 202;
         player.y = 395;
+        reward.randomXcoordinate();
+        reward.randomYcoordinate();
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -208,7 +220,11 @@ let Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Gem-Blue.png',
+        'images/Gem-Green.png',
+        'images/Gem-Orange.png',
+        'images/Heart.png'
     ]);
     Resources.onReady(init);
 

@@ -62,8 +62,8 @@ class Enemy extends GameObject {
           }
           else {
               lane--;
-              let newLane = firstLane + (lane * this.moveY)
-              this.y = newLane
+              let newLane = firstLane + (lane * this.moveY);
+              this.y = newLane;
           }
     }
 
@@ -73,7 +73,9 @@ class Enemy extends GameObject {
     }
 };
 
-// Enemies our player must avoid
+// The player must reach the water at the top of the map.
+// Collect rewards that appear
+// Avoid the enemies
 class Player extends GameObject {
     constructor() {
         super();
@@ -138,6 +140,67 @@ class Player extends GameObject {
     }
 };
 
+// Collected by the player
+// Depending on the reward type points or lives will be added to the player
+// New reward type will respawn in a random point between the lanes
+class Rewards extends GameObject {
+    constructor() {
+        super();
+        this.sprite = 'images/Gem-Blue.png';
+        this.x = 0;
+        this.y = 0;
+        // Due to scaling of the image in ctx.drawImage
+        // Rewards needed a smaller boundary
+        this.width = 30;
+        this.height = 30;
+        this.collided = false;
+    }
+
+    // Checks if collision is true
+    // Update the location of the reward
+
+    update() {
+        if(this.collided === true) {
+            this.randomXcoordinate();
+            this.randomYcoordinate();
+            this.collided = false;
+        }
+    }
+
+    // Randomly selects an X coordinate between the lanes with the enemies crossing
+    randomXcoordinate() {
+        let minLanes = 1, maxLanes = 5, firstLane = 15;
+        let lane = Math.floor(Math.random() * maxLanes) + minLanes;
+          if(lane === minLanes) {
+            this.x = firstLane;
+          }
+          else {
+              lane--;
+              let newLane = firstLane + (lane * this.moveX);
+              this.x = newLane;
+          }
+    }
+
+    // Randomly selects an Y coordinate between the lanes with the enemies crossing
+    randomYcoordinate() {
+        let minLanes = 1, maxLanes = 3, firstLane = 101;
+        let lane = Math.floor(Math.random() * maxLanes) + minLanes;
+          if(lane === minLanes) {
+            this.y = firstLane;
+          }
+          else {
+              lane--;
+              let newLane = firstLane + (lane * this.moveY);
+              this.y = newLane;
+          }
+    }
+
+    // Draw the rewards on the screen, required method for game
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 70, 110);
+    }
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -148,6 +211,7 @@ for(let i=0; i<3; i++) {
 }
 
 let player = new Player();
+let reward = new Rewards();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

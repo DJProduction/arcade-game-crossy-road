@@ -116,9 +116,38 @@ let Engine = (function(global) {
             reward.x + reward.width > player.x &&
             reward.y < player.y + player.height &&
             reward.y + reward.height > player.y) {
-            player.points += 5;
-            reward.collided = true;
+                checkRewardType(reward.type);
         }
+    }
+
+    // Function is called when a collision occurs between player and reward
+    // reward.type is passed to function as type
+    // Depending on the type points/extra life will be added to the player
+    function checkRewardType(type) {
+        // These numbers are also added to reward.type to identify during collisions
+        // Blue - 1 to 5 High Chance - 5 points
+        // Green - 6 to 8 Medium Chance - 10 points
+        // Orange - 9 Low Chance - 20 points
+        // Heart - 10 Low Chance - Extra Life
+        const blue = 5, green = 8, orange = 9, heart = 10;
+        switch(type) {
+            case blue:
+            player.points += 5;
+            break;
+            case green:
+            player.points += 10;
+            break;
+            case orange:
+            player.points += 20;
+            break;
+            case heart:
+            player.lives++;
+            break;
+            default:
+            console.log(`Reward type was not tracked. The type passed was ${type}`);
+            break;
+        }
+        reward.collided = true;
     }
 
     /* This function initially draws the "game level", it will then call
@@ -207,6 +236,7 @@ let Engine = (function(global) {
     function reset() {
         player.x = 202;
         player.y = 395;
+        reward.randomRewardType();
         reward.randomXcoordinate();
         reward.randomYcoordinate();
     }

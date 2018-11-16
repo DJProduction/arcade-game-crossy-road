@@ -147,6 +147,8 @@ class Rewards extends GameObject {
     constructor() {
         super();
         this.sprite = 'images/Gem-Blue.png';
+        // Used to identify the reward when collision occurs
+        this.type = 0;
         this.x = 0;
         this.y = 0;
         // Due to scaling of the image in ctx.drawImage
@@ -161,6 +163,7 @@ class Rewards extends GameObject {
 
     update() {
         if(this.collided === true) {
+            this.randomRewardType();
             this.randomXcoordinate();
             this.randomYcoordinate();
             this.collided = false;
@@ -193,6 +196,40 @@ class Rewards extends GameObject {
               let newLane = firstLane + (lane * this.moveY);
               this.y = newLane;
           }
+    }
+
+    // When reward respawns
+    // Random reward type is chosen
+    randomRewardType() {
+        // Randomly select number from 1 to 10
+        const min = 1, max = 10;
+        const numSelector = Math.floor(Math.random() * max) + min;
+        // Use simple propability method to create difficulty of see certain rewards
+        // These numbers are also added to reward.type to identify during collisions
+        // Blue - 1 to 5 High Chance - 5 points
+        const blue = 5;
+        // Green - 6 to 8 Medium Chance - 10 points
+        const green = 8;
+        // Orange - 9 Low Chance - 20 points
+        const orange = 9;
+        // Heart - 10 Low Chance - Extra Life
+        const heart = 10;
+        if(numSelector > blue && numSelector <= green) {
+            this.sprite = 'images/Gem-Green.png';
+            this.type = green;
+        }
+        else if(numSelector === orange) {
+            this.sprite = 'images/Gem-Orange.png';
+            this.type = orange;
+        }
+        else if(numSelector === heart) {
+            this.sprite = 'images/Heart.png';
+            this.type = heart;
+        }
+        else {
+            this.sprite = 'images/Gem-Blue.png';
+            this.type = blue;
+        }
     }
 
     // Draw the rewards on the screen, required method for game

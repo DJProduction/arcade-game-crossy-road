@@ -22,7 +22,13 @@ let Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
+        lastTime,
+        idFrame;
+
+        // Modal values
+        const modal = document.querySelector('.modal-overlay');
+        const replay = document.querySelector('.modal-replay');
+        let points = document.querySelector('.modal-points');
 
     canvas.width = 505;
     canvas.height = 606;
@@ -55,7 +61,14 @@ let Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
+        if(player.win === true) {
+            win.cancelAnimationFrame(idFrame);
+            modal.classList.toggle('is-hidden');
+            points.innerHTML = `Points: ${player.points}`;
+        }
+        else {
+            idFrame = win.requestAnimationFrame(main);
+        }
     }
 
     /* This function does some initial setup that should only occur once,
@@ -234,8 +247,7 @@ let Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        player.x = 202;
-        player.y = 395;
+        player.reset();
         reward.randomRewardType();
         reward.randomXcoordinate();
         reward.randomYcoordinate();

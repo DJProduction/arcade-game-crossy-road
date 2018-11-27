@@ -1,3 +1,6 @@
+/***********************************************************************************
+ * GameObject Class
+ **********************************************************************************/
 // Holds properties that are similar for the enemy and player objects
 class GameObject {
     constructor() {
@@ -15,7 +18,9 @@ class GameObject {
         this.height = 50;
     }
 }
-
+/***********************************************************************************
+ * Enemy Class
+ **********************************************************************************/
 // Enemies our player must avoid
 class Enemy extends GameObject {
     constructor() {
@@ -73,6 +78,9 @@ class Enemy extends GameObject {
     }
 };
 
+/***********************************************************************************
+ * Player Class
+ **********************************************************************************/
 // The player must reach the water at the top of the map.
 // Collect rewards that appear
 // Avoid the enemies
@@ -80,12 +88,13 @@ class Player extends GameObject {
     constructor() {
         super();
         this.sprite = 'images/char-boy.png';
-        this.x = 202;
-        this.y = 395;
+        this.x = 0;
+        this.y = 0;
         this.changeInX = 0;
         this.changeInY = 0;
         this.lives = 3;
         this.points = 0;
+        this.win = false;
     }
 
     // Update the enemy's position, required method for game
@@ -101,6 +110,11 @@ class Player extends GameObject {
         if (this.changeInY !== 0) {
             this.y += this.changeInY;
             this.changeInY = 0;
+        }
+        // If player reaches y-coordinate reaches within the water tiles
+        // the player wins the game.
+        if(this.y <= 50) {
+            player.win = true;
         }
     }
 
@@ -126,7 +140,7 @@ class Player extends GameObject {
                 break;
             case 'up':
                 console.log(keyPressed);
-                if (this.y + -this.moveY >= 0) {
+                if (this.y + -this.moveY >= -this.moveY) {
                     this.changeInY = -this.moveY;
                 }
                 break;
@@ -138,8 +152,17 @@ class Player extends GameObject {
                 break;
         }
     }
+
+    // Resets player back to the starting points
+    reset() {
+            this.x = 202;
+            this.y = 395;
+    }
 };
 
+/***********************************************************************************
+ * Rewards Class
+ **********************************************************************************/
 // Collected by the player
 // Depending on the reward type points or lives will be added to the player
 // New reward type will respawn in a random point between the lanes
@@ -238,6 +261,9 @@ class Rewards extends GameObject {
     }
 }
 
+/***********************************************************************************
+ * Main Code Run
+ **********************************************************************************/
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -250,6 +276,9 @@ for(let i=0; i<3; i++) {
 let player = new Player();
 let reward = new Rewards();
 
+/***********************************************************************************
+ * Listeners
+ **********************************************************************************/
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {

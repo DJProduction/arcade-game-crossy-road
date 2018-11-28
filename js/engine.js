@@ -68,6 +68,12 @@ let Engine = (function(global) {
             title.innerHTML = `Victory!`;
             content.innerHTML = `Points: ${player.points}`;
         }
+        else if(player.lives === 0) {
+            win.cancelAnimationFrame(idFrame);
+            modal.classList.toggle('is-hidden');
+            title.innerHTML = `No More Lives`;
+            content.innerHTML = `Don't give up. Try Again`;
+        }
         else {
             idFrame = win.requestAnimationFrame(main);
         }
@@ -123,7 +129,13 @@ let Engine = (function(global) {
                 enemy.y + enemy.height > player.y) {
                 console.log('Collided with enemy')
                 player.lives--;
+                // This calls reset function as long as lives are not equal to 0;
+                // If lives equal 0 then the main function will check and provide the modal
+                // If check is removed reset function will set back the lives
+                // before the main can check
+                if(player.lives !=0) {
                 reset();
+                }
             }
         });
         // Checks collisions between rewards and the player

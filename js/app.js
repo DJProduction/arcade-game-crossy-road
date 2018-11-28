@@ -155,6 +155,12 @@ class Player extends GameObject {
 
     // Resets player back to the starting points
     reset() {
+        // Check for special reset if player wins game or runs out of lives
+        // Should not reset as long as player has lives remaining
+        if(player.win === true || player.lives === 0) {
+            player.points = 0;
+            player.lives = 3;
+        }
             this.x = 202;
             this.y = 395;
     }

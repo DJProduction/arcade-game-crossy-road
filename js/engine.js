@@ -27,8 +27,9 @@ let Engine = (function(global) {
 
         // Modal values
         const modal = document.querySelector('.modal-overlay');
-        const replay = document.querySelector('.modal-replay');
-        let points = document.querySelector('.modal-points');
+        let title = document.querySelector('.modal-title');
+        let replay = document.querySelector('.modal-replay');
+        let content = document.querySelector('.modal-content');
 
     canvas.width = 505;
     canvas.height = 606;
@@ -64,7 +65,8 @@ let Engine = (function(global) {
         if(player.win === true) {
             win.cancelAnimationFrame(idFrame);
             modal.classList.toggle('is-hidden');
-            points.innerHTML = `Points: ${player.points}`;
+            title.innerHTML = `Victory!`;
+            content.innerHTML = `Points: ${player.points}`;
         }
         else {
             idFrame = win.requestAnimationFrame(main);
@@ -241,6 +243,18 @@ let Engine = (function(global) {
         player.render();
         reward.render();
     }
+
+    // This listens for mouse click on replay button
+    // Reset the whole game
+    // Removes the modal
+    // Puts the player and rewards back to initial state
+    // Player lives and points are reset
+    replay.addEventListener('click', function () {
+        modal.classList.toggle('is-hidden');
+        reset();
+        player.win = false;
+        win.requestAnimationFrame(main);
+    });
 
     /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen

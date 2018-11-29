@@ -116,6 +116,7 @@ let Engine = (function(global) {
         });
         player.update();
         reward.update();
+        selector.update();
     }
 
     // Measures x and y coordinates as well as height and width boundary boxes
@@ -254,6 +255,7 @@ let Engine = (function(global) {
         });
         player.render();
         reward.render();
+        selector.render();
     }
 
     // This listens for mouse click on replay button
@@ -292,7 +294,8 @@ let Engine = (function(global) {
         'images/Gem-Blue.png',
         'images/Gem-Green.png',
         'images/Gem-Orange.png',
-        'images/Heart.png'
+        'images/Heart.png',
+        'images/Selector.png'
     ]);
     Resources.onReady(init);
 

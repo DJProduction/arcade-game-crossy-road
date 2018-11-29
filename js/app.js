@@ -268,6 +268,34 @@ class Rewards extends GameObject {
 }
 
 /***********************************************************************************
+ * Character Selector Class
+ **********************************************************************************/
+class Selector extends GameObject {
+    constructor() {
+        super();
+        this.sprite = 'images/Selector.png';
+        this.x = 0;
+        this.y = this.canvasBoundaryY - this.moveY/2;
+        // Due to scaling of the image in ctx.drawImage
+        // Rewards needed a smaller boundary
+        // this.width = 30;
+        // this.height = 30;
+        this.collided = false;
+    }
+
+    // Checks if collision is true
+    // Update the location of the reward
+
+    update() {
+    }
+
+    // Draw the enemy on the screen, required method for game
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+};
+
+/***********************************************************************************
  * Main Code Run
  **********************************************************************************/
 // Now instantiate your objects.
@@ -281,6 +309,7 @@ for(let i=0; i<3; i++) {
 
 let player = new Player();
 let reward = new Rewards();
+let selector = new Selector();
 
 /***********************************************************************************
  * Listeners

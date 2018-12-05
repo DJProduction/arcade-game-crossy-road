@@ -6,15 +6,26 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Modal used when a player wins  -->
+    <!-- Modal used when a player wins or loses -->
     <div class="is-hidden modal-overlay">
         <div class="modal">
             <h1 class="modal-title">Something went wrong</h1>
-            <hr>
+            <hr class="hr-line">
             <div class="modal-content">Please refresh</div>
             <button class="modal-replay">Replay</button>
         </div>
     </div>
+    <!-- Modal used when a player wants to choose another character -->
+    <div class="is-hidden modal-overlay" id="modal-selection">
+            <div class="modal2">
+                <h1 class="modal-title">Select A Character</h1>
+                <hr class="hr-line2">
+                <div class="modal-content2">
+                    <!-- List of characters to select -->
+                    <ul class="modal-list"></ul>
+                </div>
+            </div>
+        </div>
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>

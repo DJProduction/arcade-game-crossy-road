@@ -23,10 +23,13 @@ let Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime,
-        idFrame;
+        idFrame,
+        firstTimeChoosing = true;
 
-        // Modal values
+        // Modals
         const modal = document.querySelector('.modal-overlay');
+        const modal2 = document.querySelector('#modal-selection');
+        // Modal values for when a player wins or loses
         let title = document.querySelector('.modal-title');
         let replay = document.querySelector('.modal-replay');
         let content = document.querySelector('.modal-content');
@@ -73,6 +76,34 @@ let Engine = (function(global) {
             modal.classList.toggle('is-hidden');
             title.innerHTML = `No More Lives`;
             content.innerHTML = `Don't give up. Try Again`;
+        }
+        else if(selector.collided === true) {
+            win.cancelAnimationFrame(idFrame);
+            selector.collided = false;
+            let list = document.querySelector('.modal-list');
+            // List of characters
+            let imgs = ['images/char-boy.png',
+                'images/char-cat-girl.png',
+                'images/char-horn-girl.png',
+                'images/char-princess-girl.png'];
+
+            if (firstTimeChoosing === true) {
+                for (let i = 0; i < imgs.length; i++) {
+                    let img = document.createElement('img');
+                    img.src = imgs[i];
+                    img.textContent = imgs[i];
+                    console.log(img.textContent);
+                    img.addEventListener('click', function () {
+                        player.sprite = img.textContent;
+                        modal2.classList.toggle('is-hidden');
+                        win.requestAnimationFrame(main);
+                        firstTimeChoosing = false;
+                    });
+                    list.appendChild(img);
+                };
+            }
+            modal2.classList.toggle('is-hidden');
+            reset();
         }
         else {
             idFrame = win.requestAnimationFrame(main);
@@ -145,6 +176,13 @@ let Engine = (function(global) {
             reward.y < player.y + player.height &&
             reward.y + reward.height > player.y) {
                 checkRewardType(reward.type);
+        }
+        // Checks collisions between selector and the player
+        if (selector.x < player.x + player.width &&
+            selector.x + selector.width > player.x &&
+            selector.y < player.y + player.height &&
+            selector.y + selector.height > player.y) {
+            selector.collided = true;
         }
     }
 
@@ -291,6 +329,9 @@ let Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-princess-girl.png',
         'images/Gem-Blue.png',
         'images/Gem-Green.png',
         'images/Gem-Orange.png',

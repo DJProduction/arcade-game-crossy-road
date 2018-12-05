@@ -44,7 +44,7 @@ body {
     margin-bottom: 25px;
 }
 
-hr {
+.hr-line {
     size: 15px;
     margin-bottom: 20px;
 }
@@ -63,4 +63,30 @@ button {
     text-decoration: none;
     display: inline-block;
     font-size: 25px;
+}
+
+/***********************************************************************************
+ * Modal2 Information
+ **********************************************************************************/
+
+ .modal2 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    max-height: calc(100% - 150px);
+    min-height: 250px;
+    overflow-y: scroll;
+    position: relative;
+    background: #fff;
+    z-index: 9999;
+  }
+
+  .hr-line2 {
+    size: 15px;
+    margin: 0px;
+}
+
+.modal-list {
+    margin: 0px;
 }

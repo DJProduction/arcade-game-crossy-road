@@ -276,16 +276,11 @@ class Selector extends GameObject {
         this.sprite = 'images/Selector.png';
         this.x = 0;
         this.y = this.canvasBoundaryY - this.moveY/2;
-        // Due to scaling of the image in ctx.drawImage
-        // Rewards needed a smaller boundary
-        // this.width = 30;
-        // this.height = 30;
         this.collided = false;
     }
 
     // Checks if collision is true
     // Update the location of the reward
-
     update() {
     }
 

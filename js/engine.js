@@ -13,7 +13,7 @@
  * writing app.js a little simpler to work with.
  */
 
-let Engine = (function(global) {
+let Engine = (function (global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
@@ -23,16 +23,16 @@ let Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime,
-        idFrame,
-        firstTimeChoosing = true;
+        idFrame, // Holds the id for the current animationFrame
+        firstTimeChoosing = true; // Used to track first time player changes character
 
-        // Modals
-        const modal = document.querySelector('.modal-overlay');
-        const modal2 = document.querySelector('#modal-selection');
-        // Modal values for when a player wins or loses
-        let title = document.querySelector('.modal-title');
-        let replay = document.querySelector('.modal-replay');
-        let content = document.querySelector('.modal-content');
+    // Modals
+    const modal = document.querySelector('.modal-overlay');
+    const modal2 = document.querySelector('#modal-selection');
+    // Modal values for when a player wins or loses
+    let title = document.querySelector('.modal-title');
+    let replay = document.querySelector('.modal-replay');
+    let content = document.querySelector('.modal-content');
 
     canvas.width = 505;
     canvas.height = 606;
@@ -62,49 +62,26 @@ let Engine = (function(global) {
          */
         lastTime = now;
 
+        // When player rwaches the water
+        // Launch win game modal
+        if (player.win === true) {
+            playerWin();
+        }
+        // When player does not have have enough lives.
+        // Launch lose game modal
+        else if (player.lives === 0) {
+            playerLose();
+        }
+        // Launch modal2
+        // Shows list of character to select
+        // Player's character changes to selected character
+        // When image selected, player position is reset and modal2 is removed
+        else if (selector.collided === true) {
+            playerSelect();
+        }
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        if(player.win === true) {
-            win.cancelAnimationFrame(idFrame);
-            modal.classList.toggle('is-hidden');
-            title.innerHTML = `Victory!`;
-            content.innerHTML = `Points: ${player.points}`;
-        }
-        else if(player.lives === 0) {
-            win.cancelAnimationFrame(idFrame);
-            modal.classList.toggle('is-hidden');
-            title.innerHTML = `No More Lives`;
-            content.innerHTML = `Don't give up. Try Again`;
-        }
-        else if(selector.collided === true) {
-            win.cancelAnimationFrame(idFrame);
-            selector.collided = false;
-            let list = document.querySelector('.modal-list');
-            // List of characters
-            let imgs = ['images/char-boy.png',
-                'images/char-cat-girl.png',
-                'images/char-horn-girl.png',
-                'images/char-princess-girl.png'];
-
-            if (firstTimeChoosing === true) {
-                for (let i = 0; i < imgs.length; i++) {
-                    let img = document.createElement('img');
-                    img.src = imgs[i];
-                    img.textContent = imgs[i];
-                    console.log(img.textContent);
-                    img.addEventListener('click', function () {
-                        player.sprite = img.textContent;
-                        modal2.classList.toggle('is-hidden');
-                        win.requestAnimationFrame(main);
-                        firstTimeChoosing = false;
-                    });
-                    list.appendChild(img);
-                };
-            }
-            modal2.classList.toggle('is-hidden');
-            reset();
-        }
         else {
             idFrame = win.requestAnimationFrame(main);
         }
@@ -119,6 +96,61 @@ let Engine = (function(global) {
         lastTime = Date.now();
         main();
     }
+
+    // Cancels animationFrames
+    // Reveals modal
+    // Displays victory message and points amount
+    function playerWin() {
+        win.cancelAnimationFrame(idFrame);
+        modal.classList.toggle('is-hidden');
+        title.innerHTML = `Victory!`;
+        content.innerHTML = `Points: ${player.points}`;
+    };
+
+    // Cancels animationFrames
+    // Reveals modal
+    // Displays loss message and try again information
+    function playerLose() {
+        win.cancelAnimationFrame(idFrame);
+        modal.classList.toggle('is-hidden');
+        title.innerHTML = `No More Lives`;
+        content.innerHTML = `Don't give up. Try Again`;
+    };
+
+    // Cancels animationFrames
+    // Reveals modal2
+    // Displays character images to choose from
+    // Replaces current character with the image selected
+    function playerSelect() {
+        win.cancelAnimationFrame(idFrame);
+        selector.collided = false;
+        let list = document.querySelector('.modal-list');
+        // List of characters
+        let imgs = ['images/char-boy.png',
+            'images/char-cat-girl.png',
+            'images/char-horn-girl.png',
+            'images/char-princess-girl.png'];
+        // List is only create once
+        if (firstTimeChoosing === true) {
+            // Cycle through each avaible character
+            for (let i = 0; i < imgs.length; i++) {
+                let img = document.createElement('img');
+                img.src = imgs[i];
+                img.textContent = imgs[i];
+                // Listener for image in the modal list
+                img.addEventListener('click', function () {
+                    // Change character to selected character image
+                    player.sprite = img.textContent;
+                    modal2.classList.toggle('is-hidden');
+                    win.requestAnimationFrame(main);
+                    firstTimeChoosing = false;
+                });
+                list.appendChild(img);
+            };
+        }
+        modal2.classList.toggle('is-hidden');
+        reset();
+    };
 
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
@@ -142,7 +174,7 @@ let Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
         player.update();
@@ -154,7 +186,7 @@ let Engine = (function(global) {
     // to check if each objects is close enough to be considered a collision.
     function checkCollisions() {
         // Checks collisions between enemies and the player
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             if (enemy.x < player.x + player.width &&
                 enemy.x + enemy.width > player.x &&
                 enemy.y < player.y + player.height &&
@@ -165,8 +197,8 @@ let Engine = (function(global) {
                 // If lives equal 0 then the main function will check and provide the modal
                 // If check is removed reset function will set back the lives
                 // before the main can check
-                if(player.lives !=0) {
-                reset();
+                if (player.lives != 0) {
+                    reset();
                 }
             }
         });
@@ -175,7 +207,7 @@ let Engine = (function(global) {
             reward.x + reward.width > player.x &&
             reward.y < player.y + player.height &&
             reward.y + reward.height > player.y) {
-                checkRewardType(reward.type);
+            checkRewardType(reward.type);
         }
         // Checks collisions between selector and the player
         if (selector.x < player.x + player.width &&
@@ -196,22 +228,22 @@ let Engine = (function(global) {
         // Orange - 9 Low Chance - 20 points
         // Heart - 10 Low Chance - Extra Life
         const blue = 5, green = 8, orange = 9, heart = 10;
-        switch(type) {
+        switch (type) {
             case blue:
-            player.points += 5;
-            break;
+                player.points += 5;
+                break;
             case green:
-            player.points += 10;
-            break;
+                player.points += 10;
+                break;
             case orange:
-            player.points += 20;
-            break;
+                player.points += 20;
+                break;
             case heart:
-            player.lives++;
-            break;
+                player.lives++;
+                break;
             default:
-            console.log(`Reward type was not tracked. The type passed was ${type}`);
-            break;
+                console.log(`Reward type was not tracked. The type passed was ${type}`);
+                break;
         }
         reward.collided = true;
     }
@@ -227,19 +259,19 @@ let Engine = (function(global) {
          * for that particular row of the game level.
          */
         let rowImages = [
-                'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 3 of stone
-                'images/stone-block.png',   // Row 2 of 3 of stone
-                'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
-            ],
+            'images/water-block.png',   // Top row is water
+            'images/stone-block.png',   // Row 1 of 3 of stone
+            'images/stone-block.png',   // Row 2 of 3 of stone
+            'images/stone-block.png',   // Row 3 of 3 of stone
+            'images/grass-block.png',   // Row 1 of 2 of grass
+            'images/grass-block.png'    // Row 2 of 2 of grass
+        ],
             numRows = 6,
             numCols = 5,
             row, col;
 
         // Before drawing, clear existing canvas
-        ctx.clearRect(0,0,canvas.width,canvas.height)
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
 
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
@@ -288,7 +320,7 @@ let Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.render();
         });
         player.render();

@@ -28,7 +28,7 @@ class Enemy extends GameObject {
         // The image/sprite for our enemies, this uses
         // a helper we've provided to easily load images
         this.sprite = 'images/enemy-bug.png';
-        this.x = -this.moveX;
+        this.x = 400;
         this.y = this.laneChooser();
         this.speed = Math.floor(Math.random() * 200) + 80;
         this.resetStart = -this.moveX;
@@ -40,7 +40,7 @@ class Enemy extends GameObject {
         // Checks the x-axis of the enemy in relation to
         // measurement set for the canvas of the game located in GameObject.
         // The noveX ensures the enemy moves off-screen before being reset.
-        if(this.x <= this.canvasBoundaryX + this.moveX) {
+        if (this.x <= this.canvasBoundaryX + this.moveX) {
             // Multiplies the random speed by the delta time to keep smooth
             // motion across the canvas for each enemy
             this.x += this.speed * dt;
@@ -62,14 +62,16 @@ class Enemy extends GameObject {
     laneChooser() {
         let minLanes = 1, maxLanes = 3, firstLane = 60;
         let lane = Math.floor(Math.random() * maxLanes) + minLanes;
-          if(lane === minLanes) {
+        // If random lane variable choose 1
+        if (lane === minLanes) {
             this.y = firstLane;
-          }
-          else {
-              lane--;
-              let newLane = firstLane + (lane * this.moveY);
-              this.y = newLane;
-          }
+        }
+        // If random lane variable choose the other numbers for a lane
+        else {
+            lane--;
+            let newLane = firstLane + (lane * this.moveY);
+            this.y = newLane;
+        }
     }
 
     // Draw the enemy on the screen, required method for game
@@ -113,7 +115,7 @@ class Player extends GameObject {
         }
         // If player reaches y-coordinate reaches within the water tiles
         // the player wins the game.
-        if(this.y <= 50) {
+        if (this.y <= 50) {
             player.win = true;
         }
     }
@@ -127,25 +129,25 @@ class Player extends GameObject {
     handleInput(keyPressed) {
         switch (keyPressed) {
             case 'left':
-                console.log(keyPressed);
+                // Left boundary check
                 if (this.x + -this.moveX >= 0) {
                     this.changeInX = -this.moveX;
                 }
                 break;
             case 'right':
-                console.log(keyPressed);
+                // Right boundary check
                 if (this.x + this.moveX <= this.canvasBoundaryX) {
                     this.changeInX = this.moveX;
                 }
                 break;
             case 'up':
-                console.log(keyPressed);
+                // Top boundary check
                 if (this.y + -this.moveY >= -this.moveY) {
                     this.changeInY = -this.moveY;
                 }
                 break;
             case 'down':
-                console.log(keyPressed);
+                // Bottom boundary check
                 if (this.y + this.moveY <= this.canvasBoundaryY) {
                     this.changeInY = this.moveY;
                 }
@@ -157,12 +159,12 @@ class Player extends GameObject {
     reset() {
         // Check for special reset if player wins game or runs out of lives
         // Should not reset as long as player has lives remaining
-        if(player.win === true || player.lives === 0) {
+        if (player.win === true || player.lives === 0) {
             player.points = 0;
             player.lives = 3;
         }
-            this.x = 202;
-            this.y = 395;
+        this.x = 202;
+        this.y = 395;
     }
 };
 
@@ -189,9 +191,8 @@ class Rewards extends GameObject {
 
     // Checks if collision is true
     // Update the location of the reward
-
     update() {
-        if(this.collided === true) {
+        if (this.collided === true) {
             this.randomRewardType();
             this.randomXcoordinate();
             this.randomYcoordinate();
@@ -203,28 +204,28 @@ class Rewards extends GameObject {
     randomXcoordinate() {
         let minLanes = 1, maxLanes = 5, firstLane = 15;
         let lane = Math.floor(Math.random() * maxLanes) + minLanes;
-          if(lane === minLanes) {
+        if (lane === minLanes) {
             this.x = firstLane;
-          }
-          else {
-              lane--;
-              let newLane = firstLane + (lane * this.moveX);
-              this.x = newLane;
-          }
+        }
+        else {
+            lane--;
+            let newLane = firstLane + (lane * this.moveX);
+            this.x = newLane;
+        }
     }
 
     // Randomly selects an Y coordinate between the lanes with the enemies crossing
     randomYcoordinate() {
         let minLanes = 1, maxLanes = 3, firstLane = 101;
         let lane = Math.floor(Math.random() * maxLanes) + minLanes;
-          if(lane === minLanes) {
+        if (lane === minLanes) {
             this.y = firstLane;
-          }
-          else {
-              lane--;
-              let newLane = firstLane + (lane * this.moveY);
-              this.y = newLane;
-          }
+        }
+        else {
+            lane--;
+            let newLane = firstLane + (lane * this.moveY);
+            this.y = newLane;
+        }
     }
 
     // When reward respawns
@@ -243,15 +244,15 @@ class Rewards extends GameObject {
         const orange = 9;
         // Heart - 10 Low Chance - Extra Life
         const heart = 10;
-        if(numSelector > blue && numSelector <= green) {
+        if (numSelector > blue && numSelector <= green) {
             this.sprite = 'images/Gem-Green.png';
             this.type = green;
         }
-        else if(numSelector === orange) {
+        else if (numSelector === orange) {
             this.sprite = 'images/Gem-Orange.png';
             this.type = orange;
         }
-        else if(numSelector === heart) {
+        else if (numSelector === heart) {
             this.sprite = 'images/Heart.png';
             this.type = heart;
         }
@@ -275,7 +276,7 @@ class Selector extends GameObject {
         super();
         this.sprite = 'images/Selector.png';
         this.x = 0;
-        this.y = this.canvasBoundaryY - this.moveY/2;
+        this.y = this.canvasBoundaryY - this.moveY / 2;
         this.collided = false;
     }
 
@@ -297,7 +298,7 @@ class Selector extends GameObject {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 let allEnemies = [];
-for(let i=0; i<3; i++) {
+for (let i = 0; i < 3; i++) {
     enemy = new Enemy();
     allEnemies.push(enemy);
 }
@@ -311,7 +312,7 @@ let selector = new Selector();
  **********************************************************************************/
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
+document.addEventListener('keyup', function (e) {
     let allowedKeys = {
         37: 'left',
         38: 'up',

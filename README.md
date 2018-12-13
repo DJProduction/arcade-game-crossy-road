@@ -16,6 +16,14 @@ To move your character use
 * Up-Arrow: Character moves up one tile
 * Down-Arrow: Character moves down one tile
 
+## How to download and play
+1. To play on your computer simply click the **Clone or download** button on the top right.
+2. You can **Download to Desktop** or **Download as Zip** and the file will be download to your local Downloads folder.
+3. Unzip/Open the downloaded arcade-game-crossy-road folder
+4. Double click index.html file to start the game.
+### Alternative way to play
+You can play the game by clicking this link [Arcade Crossy Road Game](http://djproduction.github.io/arcade-game-crossy-road)
+
 ## How to change character
 Move character to the yellow glowing start tile. When your character is on the star tile a character selection screen will appear.
 **Left click on the character you would like to be!**
@@ -37,8 +45,8 @@ You will receive different rewards depending on the items you collect.
 ## Losing
 Each time you run into a bug you will lose **1** life. Once you lose all your lives you can start can restart the game by selecting the **Replay** button that will appear.
 
-<p style="color:#5EF42A; font-size:20px; text-align: center;">
-Remember collect as many items as you can before running to the water.
-<br>
-Good Luck!
-</p>
+
+## Important
+**Remember collect as many items as you can before running to the water.**
+
+**Good Luck!**

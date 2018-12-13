@@ -45,8 +45,22 @@ You will receive different rewards depending on the items you collect.
 ## Losing
 Each time you run into a bug you will lose **1** life. Once you lose all your lives you can start can restart the game by selecting the **Replay** button that will appear.
 
+<<<<<<< HEAD
 
 ## Important
 **Remember collect as many items as you can before running to the water.**
 
 **Good Luck!**
+||||||| merged common ancestors
+<p style="color:#5EF42A; font-size:20px; text-align: center;">
+Remember collect as many items as you can before running to the water.
+<br>
+Good Luck!
+</p>
+=======
+
+## Important
+**Remember collect as many items as you can before running to the water.**
+
+**Good Luck!**
+>>>>>>> 646519030b0dc01f67c726c49b40802ba2a6267c
